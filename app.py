@@ -98,22 +98,16 @@ if len(df_filtered) == 0:
     st.warning("Tidak ada data yang sesuai dengan filter yang dipilih.")
     st.stop()
 
-positive_count = len(df_filtered[df_filtered['sentiment'] == 'Positive'])
-neutral_count = len(df_filtered[df_filtered['sentiment'] == 'Neutral'])
-negative_count = len(df_filtered[df_filtered['sentiment'] == 'Negative'])
 total_reviews = len(df_filtered)
 avg_rating = df_filtered['score'].mean()
-positive_pct = (positive_count / total_reviews) * 100 if total_reviews > 0 else 0
 
 st.header("Overview")
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Total Review", f"{total_reviews:,}")
 with col2:
     st.metric("Rata-rata Rating", f"{avg_rating:.2f}")
 with col3:
-    st.metric("Positive Review", f"{positive_pct:.1f}%")
-with col4:
     st.metric("Total User", f"{df_filtered['userName'].nunique():,}")
 
 st.markdown("---")
