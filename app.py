@@ -124,7 +124,7 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("Total Review", f"{total_reviews:,}")
 with col2:
-    st.metric("Rata-rata Rating", f"{avg_rating:.2f} ⭐")
+    st.metric("Rata-rata Rating", f"{avg_rating:.2f}")
 with col3:
     st.metric("Positive Review", f"{positive_pct:.1f}%")
 with col4:
@@ -132,7 +132,7 @@ with col4:
 
 st.markdown("---")
 
-tab1, tab2, tab3 = st.tabs(["📊 Overview", "📈 Review Analysis", "🔤 Text Mining"])
+tab1, tab2, tab3 = st.tabs(["Overview", "Review Analysis", "Text Mining"])
 
 with tab1:
     st.markdown("### Sentiment Distribution")
