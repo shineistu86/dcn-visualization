@@ -9,7 +9,7 @@ import re
 st.set_page_config(
     page_title="DCN App Review Analysis",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 st.markdown("""
@@ -49,59 +49,30 @@ custom_stopwords = {
 }
 final_stopwords = stopwords_core.union(custom_stopwords)
 
+total_reviews = len(df)
+avg_rating = df['score'].mean()
+
 st.title("Dashboard Visualisasi Review Pengguna Aplikasi DANA")
 st.markdown("---")
 
-with st.sidebar:
-    st.header("Filter")
-
-    selected_ratings = st.multiselect(
-        "Filter Rating",
-        options=[1, 2, 3, 4, 5],
-        default=[1, 2, 3, 4, 5]
-    )
-
-    df_filtered = df[df['score'].isin(selected_ratings)]
-
-    st.markdown("---")
-    st.header("Info Data")
-    st.metric("Total Review", f"{len(df_filtered):,}")
-
-    st.markdown("---")
-    st.markdown("**Missing Value**")
-    missing_df = pd.DataFrame({
-        'Kolom': df_filtered.columns,
-        'Missing': df_filtered.isnull().sum().values
-    })
-    st.dataframe(missing_df[missing_df['Missing'] > 0], hide_index=True, use_container_width=True)
-
-if len(df_filtered) == 0:
-    st.warning("Tidak ada data yang sesuai dengan filter yang dipilih.")
-    st.stop()
-
-total_reviews = len(df_filtered)
-avg_rating = df_filtered['score'].mean()
-
-st.header("Overview")
 col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Total Review", f"{total_reviews:,}")
 with col2:
     st.metric("Rata-rata Rating", f"{avg_rating:.2f}")
 with col3:
-    st.metric("Total User", f"{df_filtered['userName'].nunique():,}")
+    st.metric("Total User", f"{df['userName'].nunique():,}")
 
 st.markdown("---")
 
-tab1, tab2, tab3 = st.tabs(["Overview", "Review Analysis", "Text Mining"])
+tab1, tab2, tab3 = st.tabs(["Rating Distribution", "Tren Review Harian", "Text Mining"])
 
 with tab1:
-    st.subheader("Rating Distribution")
     col1, col2 = st.columns(2)
 
     with col1:
         fig, ax = plt.subplots(figsize=(6, 4))
-        sns.countplot(x='score', data=df_filtered, palette='viridis', ax=ax)
+        sns.countplot(x='score', data=df, palette='viridis', ax=ax)
         ax.set_xlabel('Rating')
         ax.set_ylabel('Jumlah')
         ax.set_title('')
@@ -109,7 +80,7 @@ with tab1:
         st.pyplot(fig, use_container_width=True)
 
     with col2:
-        rating_counts = df_filtered['score'].value_counts().sort_index()
+        rating_counts = df['score'].value_counts().sort_index()
         rating_percent = rating_counts / rating_counts.sum() * 100
         colors = plt.cm.Set2(range(len(rating_percent)))
         fig, ax = plt.subplots(figsize=(5, 5))
@@ -119,10 +90,8 @@ with tab1:
         st.pyplot(fig, use_container_width=True)
 
 with tab2:
-    st.subheader("Tren Review Harian")
-    df_filtered = df_filtered.copy()
-    df_filtered['review_datetime'] = pd.to_datetime(df_filtered['review_datetime'], errors='coerce')
-    daily_trend = df_filtered['review_datetime'].dropna().dt.date.value_counts().sort_index()
+    df['review_datetime'] = pd.to_datetime(df['review_datetime'], errors='coerce')
+    daily_trend = df['review_datetime'].dropna().dt.date.value_counts().sort_index()
 
     fig, ax = plt.subplots(figsize=(10, 3))
     ax.plot(daily_trend.index, daily_trend.values, marker='o', linewidth=2, markersize=4, color='#2ecc71')
@@ -135,7 +104,7 @@ with tab2:
     st.pyplot(fig, use_container_width=True)
 
 with tab3:
-    clean_corpus = df_filtered['content'].dropna().apply(lambda x: str(x).lower())
+    clean_corpus = df['content'].dropna().apply(lambda x: str(x).lower())
     all_text_string = " ".join(clean_corpus)
 
     col1, col2 = st.columns(2)
@@ -153,7 +122,7 @@ with tab3:
     with col2:
         st.subheader("Wordcloud per Rating")
         selected_rating = st.selectbox("Pilih Rating", [1, 2, 3, 4, 5], key="rating_select")
-        subset_text = " ".join(df_filtered[df_filtered['score'] == selected_rating]['content'].dropna().astype(str))
+        subset_text = " ".join(df[df['score'] == selected_rating]['content'].dropna().astype(str))
         subset_text = re.sub(r'[^\w\s]', '', subset_text).lower()
         wc = WordCloud(width=400, height=300, background_color='white',
                        stopwords=final_stopwords, max_words=80, colormap='magma').generate(subset_text)
