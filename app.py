@@ -59,8 +59,7 @@ def get_sentiment(score):
 
 df['sentiment'] = df['score'].apply(get_sentiment)
 
-st.title("DCN App Review Analysis")
-st.markdown("Dashboard interaktif untuk menganalisis review pengguna aplikasi dompet digital")
+st.title("Dashboard Visualisasi Review Pengguna Aplikasi DANA")
 st.markdown("---")
 
 with st.sidebar:
