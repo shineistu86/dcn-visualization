@@ -77,13 +77,3 @@ Dataset berisi hasil crawling review aplikasi DANA dari Google Play Store dengan
 ## 🌐 Live Demo
 
 [![Deploy to Streamlit Cloud](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://dcn-visualization.streamlit.app)
-
-## 👤 Author
-
-**shineistu86**
-
-GitHub: [@shineistu86](https://github.com/shineistu86)
-
----
-
-Built with ❤️ using Streamlit
