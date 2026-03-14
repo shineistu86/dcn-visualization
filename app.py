@@ -53,12 +53,27 @@ total_reviews = len(df)
 avg_rating = df['score'].mean()
 
 st.title("Dashboard Visualisasi Review Pengguna Aplikasi DANA")
+
+# Cek Data Section
+st.subheader("📊 Cek Data")
+st.write(f"**Total Data:** {len(df)} baris\n")
+
+st.write("**Jumlah Missing Value per Kolom:**")
+missing_info = df.isnull().sum()
+for col, val in missing_info.items():
+    st.write(f"- {col}: {val}")
+
+st.write("\n**Tipe Data:**")
+dtype_info = df.dtypes
+for col, val in dtype_info.items():
+    st.write(f"- {col}: {val}")
+
 st.markdown("---")
 
-with st.expander("📄 Lihat Info Dataset"):
+with st.expander("📄 Lihat Info Dataset (Detail)"):
     st.subheader("Info Dataset")
     st.write(f"**Total Data:** {len(df):,} baris")
-    
+
     st.subheader("Missing Value per Kolom")
     missing_df = pd.DataFrame({
         'Kolom': df.columns,
@@ -66,7 +81,7 @@ with st.expander("📄 Lihat Info Dataset"):
         'Persentase': (df.isnull().sum().values / len(df) * 100).round(2)
     })
     st.dataframe(missing_df[missing_df['Missing Value'] > 0], hide_index=True, use_container_width=True)
-    
+
     st.subheader("Tipe Data")
     dtype_df = pd.DataFrame({
         'Kolom': df.columns,
