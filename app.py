@@ -135,15 +135,15 @@ with tab2:
     st.pyplot(fig, use_container_width=True)
 
 with tab3:
-    st.subheader("Wordcloud Global")
     clean_corpus = df_filtered['content'].dropna().apply(lambda x: str(x).lower())
     all_text_string = " ".join(clean_corpus)
 
-    wordcloud = WordCloud(width=400, height=300, background_color='white',
-                          stopwords=final_stopwords, max_words=80, colormap='viridis').generate(all_text_string)
-
     col1, col2 = st.columns(2)
+
     with col1:
+        st.subheader("Wordcloud Global")
+        wordcloud = WordCloud(width=400, height=300, background_color='white',
+                              stopwords=final_stopwords, max_words=80, colormap='viridis').generate(all_text_string)
         fig, ax = plt.subplots(figsize=(5, 4))
         ax.imshow(wordcloud, interpolation='bilinear')
         ax.axis('off')
@@ -151,7 +151,7 @@ with tab3:
         st.pyplot(fig, use_container_width=True)
 
     with col2:
-        st.markdown("**Wordcloud per Rating**")
+        st.subheader("Wordcloud per Rating")
         selected_rating = st.selectbox("Pilih Rating", [1, 2, 3, 4, 5], key="rating_select")
         subset_text = " ".join(df_filtered[df_filtered['score'] == selected_rating]['content'].dropna().astype(str))
         subset_text = re.sub(r'[^\w\s]', '', subset_text).lower()
