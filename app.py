@@ -55,7 +55,7 @@ avg_rating = df['score'].mean()
 st.title("Dashboard Visualisasi Review Pengguna Aplikasi DANA")
 st.markdown("---")
 
-with st.expander("📄 Lihat Info Dataset"):
+with st.expander("Lihat Info Dataset"):
     st.subheader("Info Dataset")
     st.write(f"**Total Data:** {len(df):,} baris")
 
