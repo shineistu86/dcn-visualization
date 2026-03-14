@@ -204,26 +204,6 @@ with tab2:
     plt.tight_layout()
     st.pyplot(fig5, use_container_width=True)
     
-    st.markdown("---")
-    st.markdown("### Review Length Analysis")
-    df_filtered['review_length'] = df_filtered['content'].fillna('').apply(len)
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        fig6, ax6 = plt.subplots(figsize=(6, 4))
-        sns.boxplot(y='review_length', data=df_filtered, ax=ax6, palette='viridis')
-        ax6.set_ylabel('Panjang Review (karakter)')
-        ax6.set_title('')
-        st.pyplot(fig6, use_container_width=True)
-    
-    with col2:
-        fig7, ax7 = plt.subplots(figsize=(6, 4))
-        sns.scatterplot(x='score', y='review_length', data=df_filtered, ax=ax7, alpha=0.5, s=50)
-        ax7.set_xlabel('Rating')
-        ax7.set_ylabel('Panjang Review')
-        ax7.grid(True, alpha=0.3)
-        st.pyplot(fig7, use_container_width=True)
-
 with tab3:
     st.markdown("### Wordcloud Global")
     clean_corpus = df_filtered['content'].dropna().apply(lambda x: str(x).lower())
