@@ -55,6 +55,27 @@ avg_rating = df['score'].mean()
 st.title("Dashboard Visualisasi Review Pengguna Aplikasi DANA")
 st.markdown("---")
 
+with st.expander("📄 Lihat Info Dataset"):
+    st.subheader("Info Dataset")
+    st.write(f"**Total Data:** {len(df):,} baris")
+    
+    st.subheader("Missing Value per Kolom")
+    missing_df = pd.DataFrame({
+        'Kolom': df.columns,
+        'Missing Value': df.isnull().sum().values,
+        'Persentase': (df.isnull().sum().values / len(df) * 100).round(2)
+    })
+    st.dataframe(missing_df[missing_df['Missing Value'] > 0], hide_index=True, use_container_width=True)
+    
+    st.subheader("Tipe Data")
+    dtype_df = pd.DataFrame({
+        'Kolom': df.columns,
+        'Tipe Data': df.dtypes.values
+    })
+    st.dataframe(dtype_df, hide_index=True, use_container_width=True)
+
+st.markdown("---")
+
 col1, col2, col3 = st.columns(3)
 with col1:
     st.metric("Total Review", f"{total_reviews:,}")
