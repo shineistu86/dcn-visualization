@@ -24,42 +24,6 @@ Dashboard interaktif untuk menganalisis review pengguna aplikasi DANA menggunaka
 - **Seaborn** - Statistical data visualization
 - **WordCloud** - Visualisasi word cloud
 
-## 🚀 Quick Start
-
-### Clone Repository
-
-```bash
-git clone https://github.com/shineistu86/dcn-visualization.git
-cd dcn-visualization
-```
-
-### Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### Run Streamlit
-
-```bash
-streamlit run app.py
-```
-
-Dashboard akan terbuka di browser Anda pada `http://localhost:8501`
-
-## 📂 Project Structure
-
-```
-dcn-visualization/
-├── app.py                      # Main Streamlit application
-├── requirements.txt            # Python dependencies
-├── README.md                   # Project documentation
-├── .gitignore                  # Git ignore rules
-├── data/
-│   └── dcn_crawlingdata_(1).csv    # Dataset
-└── assets/
-```
-
 ## 📁 Dataset
 
 Dataset berisi hasil crawling review aplikasi DANA dari Google Play Store dengan kolom:
