@@ -49,16 +49,6 @@ custom_stopwords = {
 }
 final_stopwords = stopwords_core.union(custom_stopwords)
 
-def get_sentiment(score):
-    if score >= 4:
-        return 'Positive'
-    elif score == 3:
-        return 'Neutral'
-    else:
-        return 'Negative'
-
-df['sentiment'] = df['score'].apply(get_sentiment)
-
 st.title("Dashboard Visualisasi Review Pengguna Aplikasi DANA")
 st.markdown("---")
 
@@ -71,16 +61,7 @@ with st.sidebar:
         default=[1, 2, 3, 4, 5]
     )
 
-    selected_sentiments = st.multiselect(
-        "Filter Sentimen",
-        options=['Positive', 'Neutral', 'Negative'],
-        default=['Positive', 'Neutral', 'Negative']
-    )
-
-    df_filtered = df[
-        df['score'].isin(selected_ratings) &
-        df['sentiment'].isin(selected_sentiments)
-    ]
+    df_filtered = df[df['score'].isin(selected_ratings)]
 
     st.markdown("---")
     st.header("Info Data")
