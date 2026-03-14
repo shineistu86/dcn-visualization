@@ -135,40 +135,9 @@ st.markdown("---")
 tab1, tab2, tab3 = st.tabs(["Overview", "Review Analysis", "Text Mining"])
 
 with tab1:
-    st.markdown("### Sentiment Distribution")
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        fig1, ax1 = plt.subplots(figsize=(6, 4))
-        sentiments = ['Positive', 'Neutral', 'Negative']
-        counts = [positive_count, neutral_count, negative_count]
-        colors = ['#27ae60', '#f39c12', '#e74c3c']
-        ax1.bar(sentiments, counts, color=colors)
-        ax1.set_ylabel('Jumlah')
-        ax1.set_title('')
-        ax1.grid(axis='y', alpha=0.3)
-        for i, v in enumerate(counts):
-            ax1.text(i, v + 50, str(v), ha='center')
-        st.pyplot(fig1, use_container_width=True)
-    
-    with col2:
-        fig2, ax2 = plt.subplots(figsize=(5, 5))
-        colors = ['#27ae60', '#f39c12', '#e74c3c']
-        wedges, texts, autotexts = ax2.pie(
-            counts, 
-            labels=sentiments,
-            autopct='%1.1f%%', 
-            startangle=90,
-            colors=colors,
-            explode=[0.02]*3
-        )
-        ax2.axis('equal')
-        st.pyplot(fig2, use_container_width=True)
-    
-    st.markdown("---")
     st.markdown("### Rating Distribution")
     col1, col2 = st.columns(2)
-    
+
     with col1:
         fig3, ax3 = plt.subplots(figsize=(6, 4))
         sns.countplot(x='score', data=df_filtered, palette='viridis', ax=ax3)
@@ -177,16 +146,16 @@ with tab1:
         ax3.set_title('')
         ax3.grid(axis='y', alpha=0.3)
         st.pyplot(fig3, use_container_width=True)
-    
+
     with col2:
         rating_counts = df_filtered['score'].value_counts().sort_index()
         rating_percent = rating_counts / rating_counts.sum() * 100
-        fig4, ax4 = plt.subplots(figsize=(5, 5))
         colors = plt.cm.Set2(range(len(rating_percent)))
-        ax4.pie(rating_percent, labels=rating_percent.index,
+        fig1, ax1 = plt.subplots(figsize=(5, 5))
+        ax1.pie(rating_percent, labels=rating_percent.index,
                 autopct='%1.1f%%', startangle=90, colors=colors, explode=[0.02]*len(rating_percent))
-        ax4.axis('equal')
-        st.pyplot(fig4, use_container_width=True)
+        ax1.axis('equal')
+        st.pyplot(fig1, use_container_width=True)
 
 with tab2:
     st.markdown("### Tren Review Harian")
